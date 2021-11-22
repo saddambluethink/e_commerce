@@ -1,0 +1,93 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <title>Ecommerce</title>
+</head>
+<body  >
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand text-white" style="pointer-events: none;">
+        <img src="{% static 'images/logo.png' %}" height="30px">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="">E-Store</a>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav my-2 my-lg-0">
+            <li class="nav-item">
+                <a class="nav-link text-black" href="/?type=man">mans</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-black" href="/?type=woman">woman</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-black" href="/?type=child">child</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-black" href="/?type=vagetable&fruits">vagitable&fruits</a>
+            </li>
+            <li class="nav-item">
+                {% if request.user %}
+            <li class="nav-item">
+                <a class="nav-link text-black" href="#" style="pointer-events: none;">{{request.session.email}}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-black" href="">Cart</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-black" href="">Order</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-black" href="">Logout</a>
+            </li>
+
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link text-black" href="#">Signup</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-black" href="{% url 'loginuser' %}">Login</a>
+            </li>
+
+            {% endif %}
+        </ul>
+
+    </div>
+</nav>
+
+
+
+{% block content %}
+
+{% endblock %}
+
+<div class="container-fluid bg-dark mt-3">
+    <center><strong><p class="text-white mb-0  ml-4 py-3" style="font-size: 18px;"><i class="fas fa-copyright"></i> 2021 E-Commerce store All rights reserved.</p></strong></center>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script>
+
+</script>
+</body>
+</html>
