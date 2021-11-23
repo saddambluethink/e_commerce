@@ -21,20 +21,20 @@ def index(request):
     print(type)
     
     if type=='man':  
-        data =Product.objects.filter(category=type)
+        data =Product.get_products_by_category(type)
         return render(request,'index.html',{'products':data})
     elif type=='woman':              
-        data =Product.objects.filter(category=type)
+        data =Product.get_products_by_category(type)
         return render(request,'index.html',{'products':data}) 
     elif type=='child':                                      
-        data =Product.objects.filter(category=type)
+        data =Product.get_products_by_category(type)
         return render(request,'index.html',{'products':data})
     elif type=='vagetable':
         type='vagetable&fruits'                                      
-        data =Product.objects.filter(category=type)
+        data =Product.get_products_by_category(type)
         return render(request,'index.html',{'products':data})    
     else:           #all shayeri
-        products=Product.objects.all()
+        products=Product.get_all_products()
         return render(request,'index.html',{'products':products})
 
 

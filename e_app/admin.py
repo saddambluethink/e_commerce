@@ -1,4 +1,27 @@
 from django.contrib import admin
-from .models import Product
+
+from .models import Product,Customer
+
+admin.site.site_header="my web"
+admin.site.site_title="my title"
 # Register your models here.
-admin.site.register(Product)
+class AdminProduct(admin.ModelAdmin):
+    list_display = ('productname', )
+    #list_display=['productname','price','image','category','description']
+    readonly_fields = ('thumbnail_preview',)
+
+    def thumbnail_preview(self, obj):
+        return obj.thumbnail_preview
+
+    thumbnail_preview.short_description = 'Thumbnail Preview'
+    thumbnail_preview.allow_tags = True
+
+admin.site.register(Product, AdminProduct)
+
+class AdminCustomer(admin.ModelAdmin):
+    list_display=['first_name','email']
+    radio_fields={'gender':admin.VERTICAL}
+    search_fields=('full_name',)
+
+
+admin.site.register(Customer, AdminCustomer)
