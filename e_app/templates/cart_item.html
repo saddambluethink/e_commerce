@@ -1,0 +1,35 @@
+<h1>all card item</h1>
+
+<h3>Total item :{{items.count}}</h3>
+
+<table border="05" align="center">
+    
+    <tr > 
+        <thead>
+            <th>cart id</th>
+            <th>productname</th>
+            <th>image</th>
+            <th>price</th>
+            <th>quantity</th>
+            <th>Remove</th>
+        </thead>
+    </tr>
+    {%for item in items%}
+    <tr>
+        <td>{{item.id}}</td>
+        <td>{{item.product.productname}} </td>
+        <td> <img src="{{ item.product.image.url }}" height="50px" width="50"></td>
+        <td>{{item.product.price}} </td>
+        <td>{{item.quantity}} </td>
+        <td><form method="POST" action="/delete_cart_item">
+            {% csrf_token%}
+          <input type="hidden" name="id" value="{{item.id}}">
+          <input type="submit" class="btn btn-primary" value="Remove" >
+        </form>
+           <!-- <a href="/delete_cart_item/{{item.id}}" >Remove</a></td> -->
+    </tr> {%endfor%}
+   
+</table>
+<h5 align="center">total price: {{total}}  <a href="/" >continue shoping</a> </h5> 
+
+

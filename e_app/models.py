@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.db.models.fields import CharField, EmailField
 from django.utils.html import mark_safe
 # Create your models here.
@@ -38,6 +39,23 @@ class Product(models.Model):
 
 
 
+
+
+class cartitem(models.Model):
+    user = models.ForeignKey(User,
+                             on_delete=models.CASCADE)
+    ordered = models.BooleanField(default=False)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
+
+
+
+
+
+
+
+
+
 class Customer(models.Model):
     first_name=models.CharField(max_length=20)
     last_name=models.CharField(max_length=20)
@@ -45,3 +63,6 @@ class Customer(models.Model):
     email=models.EmailField()
     password=models.CharField(max_length=20)
     gender=models.CharField( max_length=10,choices=gen)
+
+
+

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Product,Customer
+from .models import Product,Customer,cartitem
 
 admin.site.site_header="my web"
 admin.site.site_title="my title"
@@ -13,8 +13,8 @@ class AdminProduct(admin.ModelAdmin):
     def thumbnail_preview(self, obj):
         return obj.thumbnail_preview
 
-    thumbnail_preview.short_description = 'Thumbnail Preview'
-    thumbnail_preview.allow_tags = True
+    # thumbnail_preview.short_description = 'Thumbnail Preview'
+    # thumbnail_preview.allow_tags = True
 
 admin.site.register(Product, AdminProduct)
 
@@ -25,3 +25,5 @@ class AdminCustomer(admin.ModelAdmin):
 
 
 admin.site.register(Customer, AdminCustomer)
+
+admin.site.register(cartitem)

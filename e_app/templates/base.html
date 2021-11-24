@@ -45,23 +45,27 @@
                 <a class="nav-link text-black" href="/?type=vagetable&fruits">vagitable&fruits</a>
             </li>
             <li class="nav-item">
-                {% if request.user %}
+                {% if request.user.is_authenticated %}
             <li class="nav-item">
-                <a class="nav-link text-black" href="#" style="pointer-events: none;">{{request.session.email}}</a>
+                <a class="nav-link text-black" href="#" style="pointer-events: none;"></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-black" href="">Cart</a>
+                <a class="nav-link text-black" href="/show_cart_item">Cart {%if items%}{{items.count}} {%endif%}</a>
+                
             </li>
             <li class="nav-item">
                 <a class="nav-link text-black" href="">Order</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-black" href="">Logout</a>
+                <a class="nav-link text-black" href="/logoutuser">Logout</a>
             </li>
-
+            <li class="nav-item">
+                <a class="nav-link text-black" href="/change_password">change_password</a>
+            </li>
+            
             {% else %}
             <li class="nav-item">
-                <a class="nav-link text-black" href="#">Signup</a>
+                <a class="nav-link text-black" href="/signupuser">Signup</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-black" href="{% url 'loginuser' %}">Login</a>

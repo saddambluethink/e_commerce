@@ -1,0 +1,29 @@
+<h1>listing item by price range </h1>
+
+{{price}}
+
+
+<table border="05" align="center">
+    
+    <tr > 
+        <thead>
+            <th>cart id</th>
+            <th>productname</th>
+            <th>image</th>
+            <th>price</th>
+            <th>quantity</th>
+            <th>Remove</th>
+        </thead>
+    </tr>
+    {%for item in price%}
+    <tr>
+        <td>{{item.id}}</td>
+        <td>{{item.productname}} </td>
+        <td> <img src="{{ item.product.image.url }}" height="50px" width="50"></td>
+        <td>{{item.price}} </td>
+        <td>{{item.quantity}} </td>
+        
+    </tr> {%endfor%}
+   
+</table>
+<h5 align="center">total price: {{total}}  <a href="/" >continue shoping</a> </h5> 
