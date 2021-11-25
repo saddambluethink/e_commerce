@@ -1,6 +1,5 @@
 
 from django.shortcuts import redirect
-
 # my decorator
 def login_required_d(myfuction):
     def check(request):

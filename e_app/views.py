@@ -107,26 +107,39 @@ def change_password(request):
 def add_to_cart(request):
     if request.method=='POST':
         id=request.POST['id']
-        print(id,'=======================')
+        #print(id,'=======================')
         product=Product.objects.get(id=id)
-        print(product)
+       # print(product)
+        
         if request.user=='AnonymousUser':
             return redirect('index')
-        obj=cartitem(user=request.user,product=product)
-        print('obj',request.user)
-        obj.save()
-        return redirect('index')
+        try:
+            check=cartitem.objects.get(product=product)
+            i=check.quantity+1
+            #print(i,"====i==========")
+            check.quantity=i
+            check.save()
+            return redirect('show_cart_item')
+        except:
+                obj=cartitem(user=request.user,product=product)
+                print('obj',request.user)
+                obj.save()
+                return redirect('show_cart_item')
+
+
 
 @login_required_d
 def show_cart_item(request):
     #user=request.user
     
     items=cartitem.objects.filter(user=request.user)
+   # total price
     total=0
     for item in items:
         a=item.product.price
         total +=a
     return render(request, 'cart_item.html',{'items':items,'total':total})
+
 
 @login_required_d
 def delete_cart_item(request):
@@ -138,10 +151,38 @@ def delete_cart_item(request):
         return redirect('show_cart_item')
 
 
-def shwo_data_by_price(request):
-    price=Product.objects.all()
-    # for pr in price:
-    #     if pr.price<=300 and pr.price>=900:
-    #         print('===========',pr.price)
-        
-    return render(request, 'price.html',{'price':price})
+def itemquantityplus(request,id):
+    print(id,"=======plus=======")
+    data=cartitem.objects.get(id=id)
+    print(data.quantity)
+    qu=data.quantity+1
+    data.quantity=qu
+    data.save()
+    return redirect('show_cart_item')
+    
+
+def itemquantityremove(request,id):
+   # print(id,"=====remove=========")
+    data=cartitem.objects.get(id=id)
+    #print(data.quantity)
+    qu=data.quantity-1
+    if qu==0:
+        data.delete()
+        return redirect('show_cart_item')
+    data.quantity=qu
+    data.save()
+    return redirect('show_cart_item')
+
+
+
+
+def show_data_by_price(request):
+    if request.method=='POST':
+        minimumprice=request.POST['price_min']
+        maximumprice=request.POST['price_max']
+        print("===========================mini", minimumprice,'max',maximumprice)
+        price=Product.objects.filter(price__gte =minimumprice, price__lte =maximumprice)
+        print(price)
+        return render(request, 'price.html',{'data':price})
+    price=Product.objects.all()     
+    return render(request, 'price.html',{'data':price})

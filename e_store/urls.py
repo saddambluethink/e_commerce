@@ -32,7 +32,9 @@ urlpatterns = [
     path('add_to_cart',views.add_to_cart,name='add_to_cart'),
     path('show_cart_item',views.show_cart_item,name='show_cart_item'),
     path('delete_cart_item',views.delete_cart_item,name='delete_cart_item'),
-    path('shwo_data_by_price',views.shwo_data_by_price,name='p'),
+    path('show_data_by_price',views.show_data_by_price,name='p'),
+    path('itemquantityremove<int:id>',views.itemquantityremove,name='itemquantityremove'),
+    path('itemquantityplus<int:id>',views.itemquantityplus,name="itemquantityplus"),
      #forget password
     path('password-reset/',auth_views.PasswordResetView.as_view(template_name='password_reset.html'),name='password_reset'),
     path('password-reset/done/',auth_views.PasswordResetDoneView.as_view(template_name='password_reset_done.html'),name='password_reset_done'),

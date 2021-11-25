@@ -1,29 +1,79 @@
 <h1>listing item by price range </h1>
 
-{{price}}
 
 
-<table border="05" align="center">
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+</head>
+<body>
+
+<div data-role="page">
+  <div data-role="header">
+    <h1>Range Slider</h1>
+  </div>
+
+  <div data-role="main" class="ui-content">
+    <form method="post" action="/show_data_by_price">
+        {% csrf_token %}
+      <div data-role="rangeslider">
+        <label for="price-min">Price:</label>
+        <input type="range" name="price_min" id="price-min" value="200" min="0" max="1000">
+        <label for="price-max">Price:</label>
+        <input type="range" name="price_max" id="price-max" value="800" min="0" max="1000">
+      </div>
+        <input type="submit" data-inline="true" value="Submit">
+       </form>
+  </div>
+  <h1>my list</h1>
+
+  {%if data%}
+   {% for product in data%}
     
-    <tr > 
-        <thead>
-            <th>cart id</th>
-            <th>productname</th>
-            <th>image</th>
-            <th>price</th>
-            <th>quantity</th>
-            <th>Remove</th>
-        </thead>
-    </tr>
-    {%for item in price%}
-    <tr>
-        <td>{{item.id}}</td>
-        <td>{{item.productname}} </td>
-        <td> <img src="{{ item.product.image.url }}" height="50px" width="50"></td>
-        <td>{{item.price}} </td>
-        <td>{{item.quantity}} </td>
-        
-    </tr> {%endfor%}
    
-</table>
-<h5 align="center">total price: {{total}}  <a href="/" >continue shoping</a> </h5> 
+
+   <div class="row" >
+  <div class="col">
+    <div class="card" style="width: 18rem;">
+      <img class="card-img-top" src="{{ product.image.url }}" alt="Card image cap" style="width: 200px; height:200px;">
+      <div class="card-body">
+        <h5 class="card-title">{{ product.productname }}</h5>
+        <p class="card-text">{{ product.description }}</p>
+        <p class="card-text">Price - {{ product.price }}</p>
+        <!--<a href="#" class="btn btn-primary">Buy Now</a> -->
+        
+        <form method="POST" action="/add_to_cart">
+          {% csrf_token%}
+        <input type="hidden" name="id" value="{{product.id}}">
+        <input type="submit" class="btn btn-primary" value="Add to cart" >
+      </form>
+    
+      </div>  </div>
+      {%endfor%}
+      {% endif %}
+</div> 
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
