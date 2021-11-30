@@ -9,6 +9,7 @@ from django.http import request
 from .decorators import login_required_d
 from django.contrib.auth.decorators import login_required
 from .models import*
+
 #from .forms import*
 
 # user login logout
@@ -35,8 +36,7 @@ def index(request):
         type='vagetable&fruits'                                      
         data =Product.get_products_by_category(type)
         return render(request,'index.html',{'products':data}) 
-    else:           #all shayeri
-        
+    else:           
         #items=cartitem.objects.filter(user=request.user)
         products=Product.get_all_products()
         return render(request,'index.html',{'products':products})
@@ -53,11 +53,13 @@ def loginuser(request):
             login(request, user)
             
             # if request.user.is_superuser:
-            #     return HttpResponse('login super user')
+                #return HttpResponse('login super user')
             return  redirect('index') #HttpResponse('login mini user')
         else:
             return HttpResponse('incorect password or name')
     return render(request,'login.html')
+
+
 
 @login_required
 def logoutuser(request):
@@ -67,20 +69,25 @@ def logoutuser(request):
 
 
 
+
+
 def signupuser(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            #form.save()
-            return HttpResponse("user created")
-            # username = form.cleaned_data.get('username')
-            # raw_password = form.cleaned_data.get('password1')
-            # user = authenticate(username=username, password=raw_password)
-            # login(request, user)
-            # return redirect('home')
+            form.save()
+                           #return HttpResponse("user created")
+                # for login
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('index')
     else:
         form = UserCreationForm()
     return render(request, 'signup.html', {'form': form})
+
+
 
 
 # change password 
@@ -102,19 +109,23 @@ def change_password(request):
         return render(request, 'change_password.html', {'form': form})
     return redirect('login')
 
+
+
+
+
 #@login_required
 @login_required_d
 def add_to_cart(request):
     if request.method=='POST':
         id=request.POST['id']
-        #print(id,'=======================')
+        print(id,'==1=====================')
         product=Product.objects.get(id=id)
        # print(product)
         
         if request.user=='AnonymousUser':
             return redirect('index')
         try:
-            check=cartitem.objects.get(product=product)
+            check=cartitem.objects.get(product=product,user=request.user)
             i=check.quantity+1
             #print(i,"====i==========")
             check.quantity=i
@@ -124,13 +135,14 @@ def add_to_cart(request):
                 obj=cartitem(user=request.user,product=product)
                 print('obj',request.user)
                 obj.save()
+                print("===========================save")
                 return redirect('show_cart_item')
 
 
 
 @login_required_d
 def show_cart_item(request):
-    #user=request.user
+    user=request.user
     
     items=cartitem.objects.filter(user=request.user)
    # total price
@@ -138,28 +150,33 @@ def show_cart_item(request):
     for item in items:
         a=item.product.price
         total +=a
-    return render(request, 'cart_item.html',{'items':items,'total':total})
+    return render(request, 'cart_item.html',{'items':items,'total':total,'user':user})
+
+
 
 
 @login_required_d
 def delete_cart_item(request):
     if request.method=='POST':
         id=request.POST['id']
-        d=cartitem.objects.get(id=id)
+        d=cartitem.objects.get(id=id,user=request.user)
         d.delete()
         print(id,'===')
         return redirect('show_cart_item')
 
 
+
+
 def itemquantityplus(request,id):
     print(id,"=======plus=======")
-    data=cartitem.objects.get(id=id)
+    data=cartitem.objects.get(id=id,user=request.user)
     print(data.quantity)
     qu=data.quantity+1
     data.quantity=qu
     data.save()
     return redirect('show_cart_item')
     
+
 
 def itemquantityremove(request,id):
    # print(id,"=====remove=========")

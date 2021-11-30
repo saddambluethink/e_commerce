@@ -37,8 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # install app
     'e_app',
+    # for show image in admin
     'sorl.thumbnail',
+
+         # social login
+    'social_django',
+    
 ]
 
 MIDDLEWARE = [
@@ -64,6 +70,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # social login
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -99,7 +108,16 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+    
+      
+    
 ]
+
+AUTHENTICATION_BACKENDS = (
+    
+    'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.github.GithubOAuth2',
+)
 
 
 # Internationalization
@@ -140,5 +158,7 @@ EMAIL_PORT=587
 EMAIL_HOST_USER='saddambluethink@gmail.com'
 EMAIL_HOST_PASSWORD='aqkgqwmnrpdluvxr'
 
-
+  # github
+SOCIAL_AUTH_GITHUB_KEY='33c51a51bce49f86b59f'
+SOCIAL_AUTH_GITHUB_SECRET='d9a7aba38b0a8da999e166909a1602a5d23c49d1'
 

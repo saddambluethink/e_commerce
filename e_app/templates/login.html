@@ -6,4 +6,10 @@
 <input type="password" name="password" placeholder="enter your password"> <br> <br>
 <input type="submit" value="submit">
 </form>
+
+<ul>
+    <li>
+        <a href="{% url 'social:begin' 'github'%}" >login with Github</a>
+    </li>
+</ul>
 <a href="/password-reset/" >Reset password</a>
