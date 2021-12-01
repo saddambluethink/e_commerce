@@ -50,6 +50,29 @@ class cartitem(models.Model):
 
 
 
+class Address(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    street_address = models.CharField(max_length=100)
+    apartment_address = models.CharField(max_length=100)
+    country = models.CharField(max_length=20)
+    pin_code = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.user.username
+
+
+
+class checkout(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    cartitem=models.ForeignKey(cartitem,on_delete=models.CASCADE)
+
+
+    def __str__(self):
+        return self.user.username
+    
+
+
+
 
 
 
@@ -63,6 +86,7 @@ class Customer(models.Model):
     email=models.EmailField()
     password=models.CharField(max_length=20)
     gender=models.CharField( max_length=10,choices=gen)
+
 
 
 

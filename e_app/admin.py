@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Product,Customer,cartitem
+from .models import Product,Customer,cartitem,Address,checkout
 
 admin.site.site_header="my web"
 admin.site.site_title="my title"
@@ -27,3 +27,6 @@ class AdminCustomer(admin.ModelAdmin):
 admin.site.register(Customer, AdminCustomer)
 
 admin.site.register(cartitem)
+
+admin.site.register(Address)
+admin.site.register(checkout)

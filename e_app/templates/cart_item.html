@@ -33,7 +33,7 @@
         <td>{{forloop.counter}}</td>
        <!-- <td>{{item.id}}</td> -->
         <td>{{item.product.productname}} </td>
-        <td> <img src="{{ item.product.image.url }}" height="50px" width="50"></td>
+        <td><a href="/checkout{{item.id}}"><img src="{{ item.product.image.url }}" height="50px" width="50"> </a> </td>
         <td>{{item.product.price}}</td>
         <td> 
             <p>

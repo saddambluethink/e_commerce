@@ -203,3 +203,17 @@ def show_data_by_price(request):
         return render(request, 'price.html',{'data':price})
     price=Product.objects.all()     
     return render(request, 'price.html',{'data':price})
+
+
+
+
+def check_out(request,id):
+    print(id,"==================")
+    item=cartitem.objects.get(id=id)
+    # s=checkout(user=request.user,cartitem=d)
+    # s.save()
+    # item=checkout.objects.get(id=1)
+    
+    # for i in item:
+    #     print("adress",i.user.address.country)
+    return render(request,'checkout.html',{'data':item})

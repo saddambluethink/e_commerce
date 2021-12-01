@@ -26,7 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # social login
 
-    path('social-auth/', include('social_django.urls', namespace='social')),
+    path('social/', include('social_django.urls', namespace='social')),
     #path('',views.social_django.urls,namespace='social'),
     path('',views.index,name="index"),
     path('login',views.loginuser,name="loginuser"),
@@ -39,6 +39,7 @@ urlpatterns = [
     path('show_data_by_price',views.show_data_by_price,name='p'),
     path('itemquantityremove<int:id>',views.itemquantityremove,name='itemquantityremove'),
     path('itemquantityplus<int:id>',views.itemquantityplus,name="itemquantityplus"),
+    path('checkout<int:id>',views.check_out,name="checkout"),
      #forget password
     path('password-reset/',auth_views.PasswordResetView.as_view(template_name='password_reset.html'),name='password_reset'),
     path('password-reset/done/',auth_views.PasswordResetDoneView.as_view(template_name='password_reset_done.html'),name='password_reset_done'),
