@@ -1,7 +1,92 @@
+{% extends 'base.html' %}
+
+
+
+{% load static %}
+
+
+{% block content %}
+<style>
+    /* Global Rules */
+    
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+    
+    body {
+        background-color: #f7f7f7;
+    }
+    
+    
+    /* End Global Rules  */
+    
+    .buy-now-btn {
+        background-color: #1e1fcd;
+        box-shadow: 0px 5px 12px 0px #1e1fcd4d;
+    }
+    
+    .plan {
+        background-color: #efefef;
+    }
+    </style>
+    <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-4 my-5">
+                    <div class="card ">
+                        <img src="https://raw.githubusercontent.com/chafikamr/FrontendMentor-order-comfirmation-snippet/16cf301566ec0f0e87a114d963779d45aef57789/images/illustration-hero.svg" class="card-img-top" alt="...">
+                        <div class="card-body px-4 text-center">
+                            <h5 class="card-title  mt-1">{{data.product.productname}}</h5>
+                            <p class="card-text text-muted mt-3">
+                                <h6>name : {{data.user}}</h6>
+                                <h5>country name : {{data.user.address.country}}</h5>
+                                <h5>pin code : {{data.user.address.pin_code}}</h5>
+                                <h5>apartment_address: {{data.user.address.apartment_address}}</h5>
+                                <h5>street_address:{{data.user.address.street_address}}</h5>
+                            </p>
+                            <div class="alert alert-light row plan ">
+                                <div class="col-3">
+                                   
+                                </div>
+                                <div class="col-6">
+                                    <div class="fw-bold">Quantity:{{data.quantity}}</div>
+                                    <del>Rs. {{total_price}}</del> <br>{{data.product.discount}} % off
+                                    <div>Rs. {{dp}}</div> 
+                                </div>
+                                <div class="col-3 d-flex align-items-center ">
+                                    
+                                </div>
+                            </div>
+                            <div class="row ">
+                                <form action="/payment">
+                                    {% csrf_token%}
+                                    <input type="hidden" name="price" value="{{dp}}">
+                                    <input type="hidden" name="id" value="{{data.id}}">
+                                    <input type="submit" class="btn btn-primary btn-lg col-12 buy-now-btn  value="Proceed to payement">
+                                </form>
+                                <!--<a href="/payment" class="btn btn-primary btn-lg col-12 buy-now-btn  ">Proceed to payement</a>
+                                --> <span class="text-secondary h6 mt-3 d-block">Cancel Order</span>
+                            </div>
+    
+                        </div>
+    
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+
+{% endblock %}
+
+
+
+
+
 
 <!--
 {{data}}    -->
-
+<!-- <div align="center">
 <h4>name : {{data.user}}</h4>
 <h4>country name : {{data.user.address.country}}</h4>
 <h4>pin code : {{data.user.address.pin_code}}</h4>
@@ -10,3 +95,7 @@
 <img src="{{ data.product.image.url }}" height="70px" width="50">
 <h4>Quantity:{{data.quantity}}</h4>
 <h4>price: {{data.product.price}}</h4>
+<h5> Total price:{{total_price}}</h5>
+<h4>after {{data.product.discount}}% discount final price : {{dp}} </h4> 
+
+</div> -->

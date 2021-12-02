@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AnonymousUser
+from django.http.response import HttpResponseRedirect
 from django.shortcuts import render,HttpResponse,redirect
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
@@ -40,6 +41,21 @@ def index(request):
         #items=cartitem.objects.filter(user=request.user)
         products=Product.get_all_products()
         return render(request,'index.html',{'products':products})
+
+
+def single_item(requests,id):
+    product=Product.objects.get(id=id)
+    p=product.price*product.discount/100
+
+    return render(requests,'s_item.html',{'product':product,'total_p':p})
+
+
+
+
+
+
+
+
 
 
 def loginuser(request):
@@ -210,10 +226,42 @@ def show_data_by_price(request):
 def check_out(request,id):
     print(id,"==================")
     item=cartitem.objects.get(id=id)
-    # s=checkout(user=request.user,cartitem=d)
-    # s.save()
-    # item=checkout.objects.get(id=1)
-    
-    # for i in item:
-    #     print("adress",i.user.address.country)
-    return render(request,'checkout.html',{'data':item})
+    pric=item.product.price
+    d=item.product.discount
+    qu=item.quantity
+    print("========",pric,qu)
+    dpp=pric-(pric*d/100)
+    dp=dpp*qu
+    total=pric*qu
+    print('total price:',total,dp)
+    return render(request,'checkout.html',{'data':item,'total_price':total,'dp':dp})
+
+
+
+
+def payment(requests):
+    print("======45=====")
+    # price=requests.POST['price']
+    # id=requests.POST['id']
+    # print("=============",price,id)
+    return render(requests,'payment.html')
+
+
+
+def ratingp(requests):
+    id=requests.POST['id']
+    st=requests.POST['fav_language']
+    print(id,st,"=============")
+    product=Product.objects.get(id=id)
+    #if rating.objects.get(product=product,user=requests.user).exist:
+    try:   
+        pr=rating.objects.get(product=product,user=requests.user)
+        pr.prating=st
+        pr.save()
+        print("inner if")
+        return HttpResponseRedirect(f's_item/{id}')
+    except:   
+        s=rating(user=requests.user,product=product,prating=st)
+        s.save()
+        print("inner else")
+        return HttpResponseRedirect(f's_item/{id}')

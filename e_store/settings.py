@@ -158,7 +158,9 @@ EMAIL_PORT=587
 EMAIL_HOST_USER='saddambluethink@gmail.com'
 EMAIL_HOST_PASSWORD='aqkgqwmnrpdluvxr'
 
-  # github
-SOCIAL_AUTH_GITHUB_KEY='33f33452964d5ba40d0d'
-SOCIAL_AUTH_GITHUB_SECRET='1a8aafeea0abce9ed93150037929d752779f107c'
 
+ # github create key and SECRET key
+# https://github.com/settings/applications/new
+# pip install social-auth-app-django
+SOCIAL_AUTH_GITHUB_KEY='e865215129ce27c9771b'
+SOCIAL_AUTH_GITHUB_SECRET='fb442029066edf05f25b711b661085b073f43564'

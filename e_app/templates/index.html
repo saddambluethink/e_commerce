@@ -57,11 +57,13 @@
 {% for product in products %}
 <div class="col">
 <div class="card" style="width: 18rem;">
+  <a href="s_item/{{product.id}}" >
   <img class="card-img-top" src="{{ product.image.url }}" alt="Card image cap" style="width: 200px; height:200px;">
-  <div class="card-body">
+</a> <div class="card-body">
     <h5 class="card-title">{{ product.productname }}</h5>
     <p class="card-text">{{ product.description }}</p>
     <p class="card-text">Price - {{ product.price }}</p>
+    <p class="card-text">{{ product.discount }} % off</p>
     <!--<a href="#" class="btn btn-primary">Buy Now</a> -->
     
     <form method="POST" action="/add_to_cart">

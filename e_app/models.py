@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.deletion import CASCADE
 from django.db.models.fields import CharField, EmailField
 from django.utils.html import mark_safe
 # Create your models here.
@@ -21,6 +22,7 @@ class Product(models.Model):
     description = models.TextField()
     image=models.ImageField(upload_to='images')
     category=models.CharField( max_length=20,choices=choices)
+    discount=models.IntegerField(default=5)
 
     @property
     def thumbnail_preview(self):
@@ -62,16 +64,23 @@ class Address(models.Model):
 
 
 
-class checkout(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    cartitem=models.ForeignKey(cartitem,on_delete=models.CASCADE)
+# class checkout(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     cartitem=models.ForeignKey(cartitem,on_delete=models.CASCADE)
 
 
-    def __str__(self):
-        return self.user.username
+#     def __str__(self):
+#         return self.user.username
     
 
 
+class rating(models.Model):
+    user=models.ForeignKey(User, on_delete=CASCADE)
+    product=models.ForeignKey(Product, on_delete=CASCADE)
+    prating=models.IntegerField()
+
+    def __str__(self):
+        return self.product.productname
 
 
 
