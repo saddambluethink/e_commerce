@@ -43,11 +43,46 @@ def index(request):
         return render(request,'index.html',{'products':products})
 
 
-def single_item(requests,id):
-    product=Product.objects.get(id=id)
-    p=product.price*product.discount/100
 
-    return render(requests,'s_item.html',{'product':product,'total_p':p})
+
+def single_item(request,id):
+    product=Product.objects.get(id=id)
+    print("===",product.price,product.discount)
+    p=product.price-(product.price*product.discount/100)
+    rat=rating.objects.filter(product=product)
+    l=len(rat)
+    five=0
+    four=0
+    three=0
+    two=0
+    one=0
+    sm=0
+    for r in rat:
+        sm+=r.prating
+        if r.prating==5:
+            five+=1
+        elif r.prating==4:
+            four+=1
+        elif r.prating==3:
+            four+=1
+        elif r.prating==2:
+            four+=1
+        else:
+            print('')
+    print("r===========",five,four,three,two,one)
+    d={
+        'five':five,
+        'four':four,
+        'three':three,
+        'two':two,
+        'one':one,
+    }
+    if sm==0:
+        av=0
+        return render(request,'s_item.html',{'product':product,'total_p':p,'rating':av})
+    av=sm/l
+    print(rat,'====rating===',l,sm)
+    return render(request,'s_item.html',{'product':product,'total_p':p,'rating':av,'d':d})
 
 
 
@@ -239,29 +274,29 @@ def check_out(request,id):
 
 
 
-def payment(requests):
+def payment(request):
     print("======45=====")
     # price=requests.POST['price']
     # id=requests.POST['id']
     # print("=============",price,id)
-    return render(requests,'payment.html')
+    return render(request,'payment.html')
 
 
 
-def ratingp(requests):
-    id=requests.POST['id']
-    st=requests.POST['fav_language']
+def ratingp(request):
+    id=request.POST['id']
+    st=request.POST['fav_language']
     print(id,st,"=============")
     product=Product.objects.get(id=id)
     #if rating.objects.get(product=product,user=requests.user).exist:
     try:   
-        pr=rating.objects.get(product=product,user=requests.user)
+        pr=rating.objects.get(product=product,user=request.user)
         pr.prating=st
         pr.save()
         print("inner if")
         return HttpResponseRedirect(f's_item/{id}')
-    except:   
-        s=rating(user=requests.user,product=product,prating=st)
+    except:             
+        s=rating(user=request.user,product=product,prating=st)
         s.save()
         print("inner else")
         return HttpResponseRedirect(f's_item/{id}')

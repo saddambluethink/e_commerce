@@ -12,14 +12,78 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
+
+<style>
+  :root {
+    --star-size: 30px;
+    --star-color: white;
+    --star-background: gold;
+  }
+  
+  .Stars {
+    --percent: calc(var(--rating) / 5 * 100%);
+  
+    display: inline-block;
+    font-size: var(--star-size);
+    font-family: Times;
+    line-height: 1;
+    border-radius: 30px;
+    padding: 10px 20px;
+    border: 1px solid orangered;
+    transform: translateY(20px);
+    opacity: 0;
+    animation: slide-in 1s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    animation-delay: calc(0.5s * var(--item-index));
+  }
+  
+  .Stars::before {
+    content: "★★★★★";
+    letter-spacing: 6px;
+    background: linear-gradient(
+      90deg,
+      var(--star-background) var(--percent),
+      var(--star-color) var(--percent)
+    );
+  
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  body {
+    background: rgb(217, 207, 226);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  * {
+    position: relative;
+    box-sizing: border-box;
+  }
+  
+  .Rating {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  @keyframes slide-in {
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+</style>
 <body  >
 
 
 
 
-<div class="row" align="center">
+<div class="row " align="center">
 
     <div class="col">
     <div class="card" style="width: 30rem;">
@@ -28,6 +92,17 @@
     </a> <div class="card-body">
         <p class="card-title">{{ product.productname }}</p>
         <p class="card-text">{{ product.description }}</p>
+             <!--rating -->
+             
+        <div class="Rating" data-splitting="items">
+                 {% if rating %}
+          <div class="Stars" style="--rating: {{rating}};" aria-label="Rating is {{rating}} out of 5"></div>
+          {%else%}
+          <h4>No rating now</h4>
+          {%endif%}
+        </div>
+
+
        <del><p class="card-text">Price - {{ product.price }}</p> </del> 
         <p class="card-text">{{ product.discount }} % off</p>
         <p class="card-text"> {{total_p}}</p>
@@ -47,7 +122,10 @@
     
     </div>
     
+
+
    
+   {% if request.user.is_authenticated %}
 
 <form action="/rating" method="POST">
     {% csrf_token %}
@@ -57,19 +135,98 @@
       <input type="radio" id="html" name="fav_language" value="1">
     <label for="html">1</label>
     <input type="radio" id="css" name="fav_language" value="2">
-    <label for="css">2</label>
+    <label for="css">2</label><br>
     <input type="radio" id="javascript" name="fav_language" value="3">
     <label for="javascript">3</label>
   <input type="radio" id="javascript" name="fav_language" value="4">
     <label for="javascript">4</label>
   <input type="radio" id="javascript" name="fav_language" value="5">
-    <label for="javascript">5</label> 
+    <label for="javascript">5</label> <br>
 
   <input type="submit" value="Submit">
   </form>
 
+  {%else%}
+             
+ {% endif %}
 
+
+<!-- 
+ <div>
+
+   <ul>
+         <li>
+           <div>
+             <span>5</span>
+             <span>*</span>
+             <span>{{d.five}}</span>
+           </div>
+         </li>
+         <li>
+          <div>
+            <span>4</span>
+            <span>*</span>
+            <span>----------{{d.four}}</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <span>3</span>
+            <span>*</span>
+            <span>----------{{d.three}}</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <span>2</span>
+            <span>*</span>
+            <span>----------{{d.two}}</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <span>1</span>
+            <span>*</span>
+            <span>----------{{d.one}}</span>
+          </div>
+        </li>
+   </ul>
+   
+<ul>
+  
+</ul>
+
+ </div> -->
+ 
+
+ <div class="container">
+  
+  <div class="w3-light-grey">
+    
+    <div class="w3-container w3-green w3-center" style="width:25%"> {{d.five}}</div>
+  </div><br>
+  
+  <div class="w3-light-grey">
+    <div class="w3-container w3-red w3-center" style="width:50%"></div>
+  </div><br>
+  
+  <div class="w3-light-grey">
+    <div class="w3-container w3-blue" style="width:75%">{{d.three}}</div>
+  </div><br>
+
+  <div class="w3-light-grey">
+    <div class="w3-container w3-yellow" style="width:75%"> {{d.two}}</div>
+  </div><br>
+
+  <div class="w3-light-grey">
+    <div class="w3-container w3-pink" style="width:75%">   {{d.one}}</div>
+  </div><br>
 
     </body>
     </html>
+    
+
+
+
+
     
